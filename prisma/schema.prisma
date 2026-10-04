@@ -7,45 +7,43 @@ datasource db {
 }
 
 model Usuario {
-  id       Int      @id @default(autoincrement())
-  nombre   String
+  id        Int        @id @default(autoincrement())
 
-  email    String   @unique
+  nombre    String
 
-  password String
+  email     String     @unique
 
-  rol      String   @default("usuario")
-  prestamos  Prestamo[]
+  password  String
+
+  rol       String     @default("usuario")
+
+  prestamos Prestamo[]
 }
 
 model Libro {
+  id         Int        @id @default(autoincrement())
 
- id Int @id @default(autoincrement())
+  titulo     String
 
- titulo String 
+  autor      String
 
- autor String 
- disponible Boolean @default(true)
+  disponible Boolean    @default(true)
 
- prestamo Prestamo[] 
-
-
-
+  prestamos  Prestamo[]
 }
 
-model Prestamo{
+model Prestamo {
+  id          Int       @id @default(autoincrement())
 
-id Int @id @default(autoincrement())
+  fechaInicio DateTime  @default(now())
 
-fechaInicio DateTime @default(now())
+  fechaFin    DateTime?
 
-fechaFin DateTime? 
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
 
-usuario Usuario @relation(fields: [usuarioId],references: [id])
+  usuarioId   Int
 
-usuarioId Int 
-
-libro Libro @relation(fields: [libroId], references: [id])
-libroId Int
-
+  libro       Libro     @relation(fields: [libroId], references: [id])
+  
+  libroId     Int
 }
